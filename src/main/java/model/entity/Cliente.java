@@ -15,6 +15,17 @@ public class Cliente implements Serializable {
 
     private static final long serialVersionUID = 3387642521978418140L;
 
+    public Cliente() {
+    }
+
+    public Cliente(Long id, String nome, String cpf, String cnpj, String tipoCliente) {
+        this.id = id;
+        this.nome = nome;
+        this.cpf = cpf;
+        this.cnpj = cnpj;
+        this.tipoCliente = tipoCliente;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_CLIENTE")
@@ -23,14 +34,56 @@ public class Cliente implements Serializable {
     @Column(name = "NOME", nullable = false, length = 45)
     private String nome;
 
-    @Column(name = "cpf", nullable = false, length = 45)
+    @Column(name = "CPF", nullable = false, length = 45)
     private String cpf;
 
-    @Column(name = "cnpj", nullable = false, length = 45)
+    @Column(name = "CNPJ", nullable = false, length = 45)
     private String cnpj;
 
-    @Column(name = "tipo_cliente", nullable = false, length = 45)
-    private String tipo_cliente;
+    @Column(name = "TIPO_CLIENTE", nullable = false, length = 45)
+    private String tipoCliente;
 
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public String getCnpj() {
+        return cnpj;
+    }
+
+    public void setCnpj(String cnpj) {
+        this.cnpj = cnpj;
+    }
+
+    public String getTipoCliente() {
+        return tipoCliente;
+    }
+
+    public void setTipoCliente(String tipoCliente) {
+        this.tipoCliente = tipoCliente;
+    }
 }

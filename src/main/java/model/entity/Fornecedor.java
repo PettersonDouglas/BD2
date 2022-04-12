@@ -8,25 +8,25 @@ public class Fornecedor {
     public Fornecedor() {
     }
 
-    public Fornecedor(Integer id_fornecedor, String nome) {
-        this.id_fornecedor = id_fornecedor;
+    public Fornecedor(Integer idFornecedor, String nome) {
+        this.idFornecedor = idFornecedor;
         this.nome = nome;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_FORNECEDOR")
-    private Integer id_fornecedor;
+    private Integer idFornecedor;
 
     @Column(name = "NOME", nullable = false, length = 45)
     private String nome;
 
-    public Integer getId_fornecedor() {
-        return id_fornecedor;
+    public Integer getIdFornecedor() {
+        return idFornecedor;
     }
 
-    public void setId_fornecedor(Integer id_fornecedor) {
-        this.id_fornecedor = id_fornecedor;
+    public void setIdFornecedor(Integer idFornecedor) {
+        this.idFornecedor = idFornecedor;
     }
 
     public String getNome() {
