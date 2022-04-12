@@ -27,7 +27,18 @@ public class Pedido {
 
     @JoinColumn(name = "CLIENTE_ID_CLIENTE", referencedColumnName = "ID_CLIENTE")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private Integer clienteIdCliente;
+    private Long clienteIdCliente;
+
+    @Column(name = "VALOR_UNIDADE", nullable = false)
+    private Float valorUnidade;
+
+    public Float getValorUnidade() {
+        return valorUnidade;
+    }
+
+    public void setValorUnidade(Float valorUnidade) {
+        this.valorUnidade = valorUnidade;
+    }
 
     public Integer getIdPedido() {
         return idPedido;
@@ -45,11 +56,11 @@ public class Pedido {
         this.data = data;
     }
 
-    public Integer getClienteIdCliente() {
+    public Long getClienteIdCliente() {
         return clienteIdCliente;
     }
 
-    public void setClienteIdCliente(Integer clienteIdCliente) {
+    public void setClienteIdCliente(Long clienteIdCliente) {
         this.clienteIdCliente = clienteIdCliente;
     }
 }

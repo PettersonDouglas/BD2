@@ -43,8 +43,19 @@ public class Cliente implements Serializable {
     @Column(name = "TIPO_CLIENTE", nullable = false, length = 45)
     private String tipoCliente;
 
+    private Carteira carteiraCliente;
+
+
     public static long getSerialVersionUID() {
         return serialVersionUID;
+    }
+
+    public Carteira getCarteiraCliente() {
+        return carteiraCliente;
+    }
+
+    public void setCarteiraCliente(Carteira carteiraCliente) {
+        this.carteiraCliente = carteiraCliente;
     }
 
     public Long getId() {
