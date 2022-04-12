@@ -12,38 +12,25 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "CLIENTE")
 public class Cliente implements Serializable {
-	
-	private static final long serialVersionUID = 3387642521978418140L;
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID_CLIENTE")
-	private Long id;
-	
-	@Column(name = "NOME", nullable = false, length = 45)
-	private String nome;
-	
-	public Cliente() {}
 
-	public Long getId() {
-		return id;
-	}
+    private static final long serialVersionUID = 3387642521978418140L;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID_CLIENTE")
+    private Long id;
 
-	public String getNome() {
-		return nome;
-	}
+    @Column(name = "NOME", nullable = false, length = 45)
+    private String nome;
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
+    @Column(name = "cpf", nullable = false, length = 45)
+    private String cpf;
 
-	@Override
-	public String toString() {
-		return "Cliente [id=" + id + ", nome=" + nome + "]";
-	}
+    @Column(name = "cnpj", nullable = false, length = 45)
+    private String cnpj;
+
+    @Column(name = "tipo_cliente", nullable = false, length = 45)
+    private String tipo_cliente;
+
 
 }
