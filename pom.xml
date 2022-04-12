@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>br.edu.ifpe.garanhuns</groupId>
   <artifactId>hibernate_jpa_blank</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.2</version>
  
   <properties>
 	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
