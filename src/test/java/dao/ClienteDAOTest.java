@@ -6,11 +6,12 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 import javax.persistence.EntityManager;
 
+import builder.ClienteFisicoBuilder;
+import model.entity.ClienteFisico;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import builder.ClienteBuilder;
 import model.entity.Cliente;
 
 public class ClienteDAOTest {
@@ -33,14 +34,24 @@ public class ClienteDAOTest {
 	
 	@Test
 	public void deveSalvarCliente() {
-		Cliente novoCliente = ClienteBuilder.umCliente().comNome("João da Silva").build();
-        dao.adiciona(novoCliente);
-        assertNotNull(novoCliente.getId());
+		ClienteFisico novoCliente = ClienteFisicoBuilder
+														.umCliente()
+														.comNome("João da Silva")
+														.comCpf("12345678901")
+														.comRg("123456789")
+														.build();
+		dao.adiciona(novoCliente);
+		assertNotNull(novoCliente.getId());
 	}
 	
 	@Test
 	public void deveEncontrarPeloId() {
-		Cliente novoCliente = ClienteBuilder.umCliente().comNome("João da Silva").build();
+		ClienteFisico novoCliente = ClienteFisicoBuilder
+														.umCliente()
+														.comNome("João da Silva")
+														.comCpf("12345678901")
+														.comRg("123456789")
+														.build();
 	    dao.adiciona(novoCliente);
 		
 	    Cliente cleinteDoBanco = dao.buscaPorId(novoCliente.getId());
@@ -50,13 +61,18 @@ public class ClienteDAOTest {
 	
 	@Test
 	public void naoDeveEncontrarPeloId() {
-		Cliente clienteDoBanco = dao.buscaPorId(-1l);
-	    assertNull(clienteDoBanco);
+		ClienteFisico clienteDoBanco = dao.buscaPorId(-1l);
+		assertNull(clienteDoBanco);
 	}
 	
 	@Test
 	public void deveDeletarUmCliente() {
-		Cliente novoCliente = ClienteBuilder.umCliente().comNome("João da Silva").build();
+		ClienteFisico novoCliente = ClienteFisicoBuilder
+														.umCliente()
+														.comNome("João da Silva")
+														.comCpf("12345678901")
+														.comRg("123456789")
+														.build();
 	    
 		dao.adiciona(novoCliente);
 		
@@ -72,7 +88,12 @@ public class ClienteDAOTest {
 	
 	@Test
 	public void deveAtualizarUmCliente() {
-		Cliente novoCliente = ClienteBuilder.umCliente().comNome("João da Silva").build();
+		ClienteFisico novoCliente = ClienteFisicoBuilder
+														.umCliente()
+														.comNome("João da Silva")
+														.comCpf("12345678901")
+														.comRg("123456789")
+														.build();
 		dao.adiciona(novoCliente);
 		
 		Long idCliente = novoCliente.getId();

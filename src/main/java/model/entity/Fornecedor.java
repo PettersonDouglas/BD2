@@ -1,39 +1,62 @@
 package model.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
-@Table(name = "FORNECEDOR")
-public class Fornecedor {
-    public Fornecedor() {
-    }
+public class Fornecedor implements Serializable {
 
-    public Fornecedor(Integer idFornecedor, String nome) {
-        this.idFornecedor = idFornecedor;
-        this.nome = nome;
-    }
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id_fornecedor")
+  private Long id;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_FORNECEDOR")
-    private Integer idFornecedor;
+  @Column(nullable = false)
+  private String nome;
 
-    @Column(name = "NOME", nullable = false, length = 45)
-    private String nome;
+  @ManyToMany
+  @JoinTable(
+      name = "produto_fornecedor",
+      joinColumns = @JoinColumn(name = "id_fornecedor"),
+      inverseJoinColumns = @JoinColumn(name = "id_produto")
+  )
+  private Set<Produto> produtos;
 
-    public Integer getIdFornecedor() {
-        return idFornecedor;
-    }
+  public Fornecedor() {}
 
-    public void setIdFornecedor(Integer idFornecedor) {
-        this.idFornecedor = idFornecedor;
-    }
+  public Fornecedor(Long id, String nome) {
+    this.id = id;
+    this.nome = nome;
+  }
 
-    public String getNome() {
-        return nome;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public String getNome() {
+    return nome;
+  }
+
+  public void setNome(String nome) {
+    this.nome = nome;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof Fornecedor)) return false;
+    Fornecedor that = (Fornecedor) o;
+    return id == that.id && nome.equals(that.nome);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, nome);
+  }
 }

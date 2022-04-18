@@ -2,99 +2,66 @@ package model.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table(name = "CLIENTE")
-public class Cliente implements Serializable {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "tipo")
+public abstract class Cliente implements Serializable {
+	
+	private static final long serialVersionUID = 3387642521978418140L;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    private static final long serialVersionUID = 3387642521978418140L;
+	@Column(name = "ID_CLIENTE")
+	private Long id;
+	
+	@Column(name = "NOME", nullable = false)
+	private String nome;
 
-    public Cliente() {
-    }
+	@OneToOne(mappedBy = "cliente")
+	private Carteira carteira;
 
-    public Cliente(Long id, String nome, String cpf, String cnpj, String tipoCliente) {
-        this.id = id;
-        this.nome = nome;
-        this.cpf = cpf;
-        this.cnpj = cnpj;
-        this.tipoCliente = tipoCliente;
-    }
+	public Cliente() {}
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_CLIENTE")
-    private Long id;
+	public Cliente(Long id, String nome, Carteira carteira) {
+		this.id = id;
+		this.nome = nome;
+		this.carteira = carteira;
+	}
 
-    @Column(name = "NOME", nullable = false, length = 45)
-    private String nome;
+	public double verificarSaldoCarteira() {
+		return this.carteira.getSaldo();
+	}
 
-    @Column(name = "CPF", nullable = false, length = 45)
-    private String cpf;
+	public Long getId() {
+		return id;
+	}
 
-    @Column(name = "CNPJ", nullable = false, length = 45)
-    private String cnpj;
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    @Column(name = "TIPO_CLIENTE", nullable = false, length = 45)
-    private String tipoCliente;
+	public String getNome() {
+		return nome;
+	}
 
-    private Carteira carteiraCliente;
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 
+	public Carteira getCarteira() {
+		return carteira;
+	}
 
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
+	public void setCarteira(Carteira carteira) {
+		this.carteira = carteira;
+	}
 
-    public Carteira getCarteiraCliente() {
-        return carteiraCliente;
-    }
+	@Override
+	public String toString() {
+		return "Cliente [id=" + id + ", nome=" + nome + "]";
+	}
 
-    public void setCarteiraCliente(Carteira carteiraCliente) {
-        this.carteiraCliente = carteiraCliente;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public String getCnpj() {
-        return cnpj;
-    }
-
-    public void setCnpj(String cnpj) {
-        this.cnpj = cnpj;
-    }
-
-    public String getTipoCliente() {
-        return tipoCliente;
-    }
-
-    public void setTipoCliente(String tipoCliente) {
-        this.tipoCliente = tipoCliente;
-    }
 }

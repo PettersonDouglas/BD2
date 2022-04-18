@@ -1,52 +1,78 @@
 package model.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
-@Table(name = "PRODUTO")
-public class Produto {
+public class Produto implements Serializable {
 
-    public Produto() {
-    }
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id_produto")
+  private Long id;
 
-    public Produto(Integer id_produto, String descricao, Float valor) {
-        this.id_produto = id_produto;
-        this.descricao = descricao;
-        this.valor = valor;
-    }
+  @Column
+  private String nome;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_PRODUTO")
-    private Integer id_produto;
+  @Column
+  private String descricao;
 
-    @Column(name = "DESCRICAO", nullable = false, length = 45)
-    private String descricao;
+  @Column(nullable = false)
+  private double valor;
 
-    @Column(name = "VALOR", nullable = false, length = 45)
-    private Float valor;
+  public Produto() {}
 
-    public Integer getId_produto() {
-        return id_produto;
-    }
+  public Produto(Long id, String nome, String descricao, double valor) {
+    this.id = id;
+    this.nome = nome;
+    this.descricao = descricao;
+    this.valor = valor;
+  }
 
-    public void setId_produto(Integer id_produto) {
-        this.id_produto = id_produto;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public String getDescricao() {
-        return descricao;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
+  public String getNome() {
+    return nome;
+  }
 
-    public Float getValor() {
-        return valor;
-    }
+  public void setNome(String nome) {
+    this.nome = nome;
+  }
 
-    public void setValor(Float valor) {
-        this.valor = valor;
-    }
+  public String getDescricao() {
+    return descricao;
+  }
+
+  public void setDescricao(String descricao) {
+    this.descricao = descricao;
+  }
+
+  public double getValor() {
+    return valor;
+  }
+
+  public void setValor(double valor) {
+    this.valor = valor;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof Produto)) return false;
+    Produto produto = (Produto) o;
+    return id == produto.id && Double.compare(produto.valor, valor) == 0 && Objects.equals(nome, produto.nome) && Objects.equals(descricao, produto.descricao);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, nome, descricao, valor);
+  }
+
 }

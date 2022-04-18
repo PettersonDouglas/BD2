@@ -1,66 +1,124 @@
 package model.entity;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
-@Table(name = "PEDIDO")
-public class Pedido {
+public class Pedido implements Serializable {
 
-    public Pedido() {
-    }
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id_pedido")
+  private Long id;
 
-    public Pedido(Integer idPedido, Date data, Integer clienteIdCliente) {
-        this.idPedido = idPedido;
-        this.data = data;
-        this.clienteIdCliente = clienteIdCliente;
-    }
+  @Column(name = "valor_total")
+  private double valorTotal;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_PEDIDO")
-    private Integer idPedido;
+  @Column(nullable = false, columnDefinition = "DATE")
+  private LocalDate data;
 
-    @Column(name = "DATA", nullable = false, length = 45)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date data;
+  @Embedded
+  @AttributeOverrides(
+      {
+          @AttributeOverride(
+              name = "cep",
+              column = @Column(
+                  name = "end_cep",
+                  columnDefinition = "CHAR(8)",
+                  nullable = false
+              )
+          ),
+          @AttributeOverride(
+              name = "rua",
+              column = @Column(name = "end_rua", nullable = false)
+          ),
+          @AttributeOverride(
+              name = "cidade",
+              column = @Column(name = "end_cidade", nullable = false)
+          )
+      }
+  )
+  private Endereco endereco;
 
-    @JoinColumn(name = "CLIENTE_ID_CLIENTE", referencedColumnName = "ID_CLIENTE")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private Long clienteIdCliente;
+  @JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente")
+  @ManyToOne(optional = false, cascade = CascadeType.ALL)
+  private Cliente cliente;
 
-    @Column(name = "VALOR_UNIDADE", nullable = false)
-    private Float valorUnidade;
+  @OneToMany(fetch = FetchType.EAGER, mappedBy = "pedido")
+  private Set<PedidoProduto> itens;
 
-    public Float getValorUnidade() {
-        return valorUnidade;
-    }
+  public Pedido() {}
 
-    public void setValorUnidade(Float valorUnidade) {
-        this.valorUnidade = valorUnidade;
-    }
+  public Pedido(Long id, double valorTotal, LocalDate data, Endereco endereco, Cliente cliente, Set<PedidoProduto> itens) {
+    this.id = id;
+    this.valorTotal = valorTotal;
+    this.data = data;
+    this.endereco = endereco;
+    this.cliente = cliente;
+    this.itens = itens;
+  }
 
-    public Integer getIdPedido() {
-        return idPedido;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public void setIdPedido(Integer idPedido) {
-        this.idPedido = idPedido;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public Date getData() {
-        return data;
-    }
+  public double getValorTotal() {
+    return valorTotal;
+  }
 
-    public void setData(Date data) {
-        this.data = data;
-    }
+  public void setValorTotal(double valorTotal) {
+    this.valorTotal = valorTotal;
+  }
 
-    public Long getClienteIdCliente() {
-        return clienteIdCliente;
-    }
+  public LocalDate getData() {
+    return data;
+  }
 
-    public void setClienteIdCliente(Long clienteIdCliente) {
-        this.clienteIdCliente = clienteIdCliente;
-    }
+  public void setData(LocalDate data) {
+    this.data = data;
+  }
+
+  public Endereco getEndereco() {
+    return endereco;
+  }
+
+  public void setEndereco(Endereco endereco) {
+    this.endereco = endereco;
+  }
+
+  public Cliente getCliente() {
+    return cliente;
+  }
+
+  public void setCliente(Cliente cliente) {
+    this.cliente = cliente;
+  }
+
+  public Set<PedidoProduto> getItens() {
+    return itens;
+  }
+
+  public void setItens(Set<PedidoProduto> itens) {
+    this.itens = itens;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof Pedido)) return false;
+    Pedido pedido = (Pedido) o;
+    return id == pedido.id && Double.compare(pedido.valorTotal, valorTotal) == 0 && data.equals(pedido.data) && endereco.equals(pedido.endereco) && cliente.equals(pedido.cliente);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, valorTotal, data, endereco, cliente);
+  }
 }

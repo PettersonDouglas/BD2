@@ -1,24 +1,34 @@
 package service;
 
 import dao.ClienteDAO;
-import model.entity.Carteira;
+import dao.EMFactory;
 import model.entity.Cliente;
-import model.entity.Pedido;
+import model.entity.ClienteFisico;
+
+import java.util.List;
 
 public class ClienteService {
-    ClienteDAO clienteDAO;
 
-    public Boolean clienteEfetuaPedido(Pedido pedido) {
-        Cliente cliente = clienteDAO.buscaPorId(pedido.getClienteIdCliente());
-        //TODO: Do request
-        calculoResidual(cliente, pedido);
-        return true;
+    private ClienteDAO dao = new ClienteDAO(EMFactory.getInstance().getEntityManager());
+
+    public ClienteFisico cadastrarCliente(ClienteFisico cliente){
+        return dao.adiciona(cliente);
     }
 
-    private void calculoResidual(Cliente cliente, Pedido pedido) {
-        cliente.getCarteiraCliente().setPontos(
-                cliente.getCarteiraCliente().getPontos() + pedido.getValorUnidade() / 10);
-        //TODO: Commit changes on database
+    public ClienteFisico atualizaCliente(ClienteFisico cliente){
+        return dao.atualiza(cliente);
     }
 
+    public void removeCliente(ClienteFisico cliente){
+        dao.remove(cliente);
+    }
+
+    public ClienteFisico buscaID(long clienteID){
+        return dao.buscaPorId(clienteID);
+    }
+
+    public List<ClienteFisico> listaClientes(){
+        return dao.listaTodos();
+    }
 }
+
